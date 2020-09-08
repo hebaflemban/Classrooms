@@ -56,7 +56,7 @@ def classroom_list(request):
 def classroom_detail(request, classroom_id):
 	classroom = Classroom.objects.get(id=classroom_id)
 	students = Student.objects.filter(classroom=classroom_id)
-
+	students = Student.objects.all().order_by('name','exam_grade')
 	context = {
 		"classroom": classroom,
 		"students":students,
