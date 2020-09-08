@@ -10,7 +10,40 @@
     <p class="card-text" style="color: 000034;">{{classroom.year}}</p>
     <a href="{% url 'classroom-update' classroom.id %}" class="btn" style="background-color: #000034; color: white;">Update</a>
     <a href="{% url 'classroom-delete' classroom.id %}" class="btn" style="background-color: #FFA500; color: #000034;">Delete</a>
+    {% if request.user.is_staff %}
+      <a href="{% url 'student-create' classroom.id %}" class="btn" style="background-color: #FFA500; color: #000034;">Add Student</a>
+    {% endif %}
   </div>
 </div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">DoB</th>
+      <th scope="col">Gender</th>
+      <th scope="col">Exam Grade</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for student in students %}
+      <tr>
+        <th scope="row">1</th>
+        <td>{{student.name}}</td>
+        <td>{{student.dob}}</td>
+        <td>{{student.gender}}</td>
+        <td>{{student.exam_grade}}</td>
+        {% if request.user.is_staff %}
+          <td><a href="{% url 'student-update' student.id %}" class="btn" style="background-color: #FFA500; color: #000034;">Update Student</a>
+          </td>
+          <td><a href="{% url 'student-delete' student.id %}" class="btn" style="background-color: #FFA500; color: #000034;">Delete Student</a>
+          </td>
+        {% endif %}
+
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 {% endblock content %}
