@@ -60,8 +60,7 @@ def classroom_list(request):
 
 def classroom_detail(request, classroom_id):
 	classroom = Classroom.objects.get(id=classroom_id)
-	students = Student.objects.filter(classroom=classroom_id)
-	students = Student.objects.all().order_by('name','exam_grade')
+	students = Student.objects.filter(classroom = classroom).order_by('name','exam_grade')
 	context = {
 		"classroom": classroom,
 		"students":students,
@@ -69,8 +68,9 @@ def classroom_detail(request, classroom_id):
 	return render(request, 'classroom_detail.html', context)
 
 def student_create(request, classroom_id):
-    if request.user.is_staff:
-        classroom = Classroom.objects.get(id=classroom_id)
+    classroom = Classroom.objects.get(id=classroom_id)
+    form = StudentForm()
+    if request.user == classroom.teacher:
         if request.method == "POST":
             form = StudentForm(request.POST)
             if form.is_valid():
@@ -87,26 +87,27 @@ def student_create(request, classroom_id):
     return render(request, 'student_create.html', context)
 
 
-def student_update(request,student_id):
+def student_update(request,classroom_id, student_id ):
 	student = Student.objects.get(id=student_id)
-	classroomid=student.classroom.id
+	classroom =Classroom.objects.get(id=classroom_id)
 	form = StudentForm(instance=student)
 	if request.method == "POST":
 		form = StudentForm(request.POST, instance=student)
 		if form.is_valid():
 			form.save()
-			return redirect('classroom-detail', classroomid )
+			return redirect('classroom-detail', classroom_id )
 	context = {
 	"form": form,
 	"student":student,
+    "classroom" : classroom,
 	}
 	return render(request, 'student_update.html', context)
 
-def student_delete(request,student_id):
+def student_delete(request,classroom_id, student_id):
 	student= Student.objects.get(id=student_id)
-	classroomid=student.classroom.id
+	classroom =Classroom.objects.get(id=classroom_id)
 	student.delete()
-	return redirect('classroom-detail', classroomid)
+	return redirect('classroom-detail', classroom_id)
 
 
 

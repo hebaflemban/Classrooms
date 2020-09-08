@@ -9,7 +9,7 @@
         <a class="nav-link" style="color: white;" href="{% url 'classroom-create' %}">New Classroom</a>
       </li>
 
-      {% if reuest.user.is_authenticated %}
+      {% if request.user.is_authenticated %}
         <li class="nav-item active">
           <a class="nav-link" style="color: white;" href="#">Welcome: {{ request.user }}</a>
         </li>
