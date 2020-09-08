@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth.models import User as
+from django.contrib.auth.models import User
 
 class Classroom(models.Model):
 	subject = models.CharField(max_length=120)
@@ -21,4 +21,4 @@ class Student(models.Model):
 	dob = models.DateField()
 	gender = models.CharField(max_length=2, choices = Gender)
 	exam_grade = models.IntegerField()
-	classroom = models.Foreignkey(Classroom, on_delete = models.SET_NULL, default = 1)
+	classroom = models.ForeignKey(Classroom, on_delete = models.SET_NULL, null=True)

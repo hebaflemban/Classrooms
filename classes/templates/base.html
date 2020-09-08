@@ -10,7 +10,6 @@
   <body>
     {% include "navbar.html" %}
     <div class="container">
-      {% block content %}
     {% if messages %}
       <div class="alert alert" style="background-color: #e3f2fd;" role="alert">
         {% for message in messages %}

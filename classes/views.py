@@ -3,6 +3,11 @@ from django.contrib.auth import login, authenticate, logout
 from .models import Classroom, Student
 from .forms import ClassroomForm, SigninForm, SignupForm, StudentForm
 
+def access(request):
+    context = {
+        "msg" : 'you have no access!'
+    }
+    return render(request, 'access.html', context)
 
 def signup(request):
 	form = SignupForm()
